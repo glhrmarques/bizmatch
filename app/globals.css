@@ -1,7 +1,9 @@
+@import "tailwindcss";
+
 :root {
   /* Primitive typography */
-  --font-family-heading: "PT Serif", serif;
-  --font-family-body: "Inter", sans-serif;
+  --font-family-heading: var(--font-pt-serif), "PT Serif", serif;
+  --font-family-body: var(--font-inter), "Inter", sans-serif;
 
   --font-size-12: 12px;
   --font-size-14: 14px;
@@ -111,26 +113,67 @@
   --color-border-dark: var(--color-gray-900);
 }
 
-html,
-body {
-  margin: var(--margin-0);
-  min-height: 100%;
+
+@theme inline {
+  --animate-reveal: reveal 650ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) backwards;
+  --text-h1: var(--type-scale-h1);
+  --text-h2: var(--type-scale-h2);
+  --text-h3: var(--type-scale-h3);
+  --text-h4: var(--type-scale-h4);
+  --text-h5: var(--type-scale-h5);
+  --text-h6: var(--type-scale-h6);
+  --text-paragraph-default: var(--type-scale-paragraph-default);
+  --text-paragraph-small: var(--type-scale-paragraph-small);
+  --text-label: var(--type-scale-label);
+  --spacing: var(--scale-4);
+  --font-weight-normal: var(--font-weight-400);
+  --font-weight-medium: var(--font-weight-500);
+  --font-weight-bold: var(--font-weight-700);
+  --font-heading: var(--font-family-heading);
+  --font-body: var(--font-family-body);
+  --color-primary: var(--color-gray-900);
+  --color-secondary: var(--color-gray-700);
+  --color-on-action-primary: var(--color-gray-100);
+  --color-on-action-secondary: var(--color-gray-900);
+  --color-surface-default: var(--color-foundation-white);
+  --color-surface-subtle: var(--color-gray-300);
+  --color-surface-on-action-primary: var(--color-gray-900);
+  --color-surface-on-action-primary-hover: var(--color-gray-700);
+  --color-surface-on-action-secondary: var(--color-gray-500);
+  --color-surface-on-action-secondary-hover: var(--color-gray-100);
+  --color-border-default: var(--color-gray-500);
+  --color-gray-100: #f5f5f5;
+  --color-gray-300: #f6f6f2;
+  --color-gray-500: #e2e1dc;
+  --color-gray-700: #404040;
+  --color-gray-900: #171717;
+  --color-foundation-white: #ffffff;
 }
 
-body {
-  background: var(--color-surface-default);
-  color: var(--color-primary);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--scale-16));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-main {
-  display: grid;
-  min-height: 100svh;
-  place-items: center;
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-surface-subtle text-primary font-body; line-height: normal; }
+  button { cursor: pointer; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button:focus-visible, a:focus-visible { outline: var(--border-width-2) solid var(--color-primary); outline-offset: var(--scale-4); }
 }
 
-h1 {
-  margin: var(--margin-0);
-  font-size: 2rem;
-  font-weight: 400;
-}
+/* Custom brand geometry and edge fades. Layout and type use Tailwind. */
+.brand-symbol { position: relative; display: block; width: 23px; height: 35px; margin-right: var(--margin-4); }
+.brand-symbol span { position: absolute; width: 14px; height: 32px; border-radius: 500px; left: 0; top: 0; background: #ffb395; }
+.brand-symbol span:nth-child(2) { background: #ff8b5b; transform: rotate(30deg); transform-origin: 7px 25px; }
+.brand-symbol span:nth-child(3) { background: #ff3300; transform: rotate(60deg); transform-origin: 7px 25px; }
+.partner-logos::before, .partner-logos::after { content: ""; position: absolute; z-index: 1; top: 0; width: 103px; height: var(--scale-56); pointer-events: none; background: linear-gradient(90deg, var(--color-surface-subtle) 17.347%, transparent 83.673%); }
+.partner-logos::before { left: 0; }
+.partner-logos::after { right: 0; transform: rotate(180deg); }
